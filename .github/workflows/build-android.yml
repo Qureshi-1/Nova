@@ -41,9 +41,8 @@ jobs:
       - name: Download built APK
         working-directory: mobile
         run: |
-          BUILD_ID=$(eas build:list --platform android --limit 1 --non-interactive --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const j=JSON.parse(s);process.stdout.write(j[0].id)})")
           mkdir -p build
-          eas build:download --id "$BUILD_ID" --platform android --non-interactive --output build/nova.apk
+          eas build:download --latest --platform android --non-interactive --output build/nova.apk
 
       - name: Create GitHub Release with APK
         uses: softprops/action-gh-release@v2
