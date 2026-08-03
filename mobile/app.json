@@ -3,7 +3,7 @@
     "name": "NOVA",
     "slug": "nova",
     "owner": "qureshi-1s-team",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#000000",
@@ -15,7 +15,8 @@
     },
     "android": {
       "package": "com.nova.companion",
-      "versionCode": 5,
+      "versionCode": 6,
+      "useLegacyPackaging": true,
       "permissions": [
         "RECORD_AUDIO",
         "POST_NOTIFICATIONS",
