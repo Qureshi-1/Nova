@@ -3,7 +3,7 @@ import * as IntentLauncher from "expo-intent-launcher";
 
 import Constants from "expo-constants";
 
-const GITHUB_REPO = "YOUR_USERNAME/nova";
+const GITHUB_REPO = "Qureshi-1/Nova";
 const GITHUB_API = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`;
 
 export const CURRENT_VERSION = Constants.expoConfig?.version || "1.0.0";

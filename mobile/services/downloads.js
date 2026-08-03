@@ -5,7 +5,7 @@ export const BRAIN_DIR = FileSystem.documentDirectory + "brain/";
 export const MODULES_DIR = BRAIN_DIR + "modules/";
 
 const GITHUB_RELEASE_URL =
-  "https://api.github.com/repos/YOUR_USERNAME/nova/releases/latest";
+  "https://api.github.com/repos/Qureshi-1/Nova/releases/latest";
 
 export const BRAIN_MODULES = [
   {
