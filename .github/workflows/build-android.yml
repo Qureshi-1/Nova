@@ -28,7 +28,7 @@ jobs:
       - name: Read app version
         id: version
         working-directory: mobile
-        run: node -p "console.log('app_version=v' + require('./app.json').expo.version)" >> "$GITHUB_OUTPUT"
+        run: node -p "'app_version=v' + require('./app.json').expo.version" >> "$GITHUB_OUTPUT"
 
       - name: Build APK with EAS
         working-directory: mobile
