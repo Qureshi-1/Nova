@@ -1,6 +1,9 @@
 import * as Speech from "expo-speech";
 import { Vibration } from "react-native";
 import { ExpoSpeechRecognitionModule } from "expo-speech-recognition";
+import { log } from "./bootlog";
+
+log("voice.js loaded");
 
 export const WAKE_RE = /(?:^|\s)(?:hey\s+|okay\s+|ok\s+)?nova(?:,|\s|$)/i;
 const LEADING_WAKE_RE = /^\s*(?:hey\s+|okay\s+|ok\s+)?nova\b[,]?\s*/i;

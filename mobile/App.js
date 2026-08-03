@@ -4,6 +4,20 @@ import { StatusBar } from "expo-status-bar";
 import * as FileSystem from "expo-file-system";
 import { useSpeechRecognitionEvent } from "expo-speech-recognition";
 
+import { log } from "./services/bootlog";
+
+log("App.js module scope");
+
+if (global.ErrorUtils && global.ErrorUtils.setGlobalHandler) {
+  const originalHandler = global.ErrorUtils.getGlobalHandler();
+  global.ErrorUtils.setGlobalHandler((error, isFatal) => {
+    try {
+      log("FATAL JS: " + (error && error.message) + " | " + (error && error.stack));
+    } catch (inner) {}
+    originalHandler(error, isFatal);
+  });
+}
+
 import ChatBubble from "./components/ChatBubble";
 import Orb from "./components/Orb";
 import { discoverBackend } from "./services/discovery";
@@ -495,43 +509,60 @@ export default function App() {
   });
 
   useEffect(() => {
+    log("App: rendered");
+  }, []);
+
+  useEffect(() => {
     let cancelled = false;
     (async () => {
-      await ensurePermissions(async () => {
-        await speak("NOVA needs storage access to create folders and manage files for you, Captain.");
-      });
-      await requestMicPermission();
-      await useSettingsStore.getState().load();
-      refreshStorage();
-      if (cancelled) return;
-      await speak("NOVA online, Captain. Searching for the backend.");
-      if (cancelled) return;
-      const saved = useSettingsStore.getState().backendIp;
-      const found = await discoverBackend(saved ? [saved] : []);
-      if (cancelled) return;
-      if (found) {
-        useSettingsStore.getState().setBackendIp(found);
-        retryConnect();
-      } else {
-        await speak(
-          "Captain, I can't find the backend. Please ask Suhail or Qureshi to type the IP on my behalf."
-        );
-      }
-      if (cancelled) return;
-
-      let brainReady = false;
       try {
-        brainReady = await allModulesInstalled();
-      } catch (error) {}
-      brainDoneRef.current = brainReady;
-      if (cancelled) return;
-      if (!brainReady) {
-        awaitingBrainRef.current = true;
-        await speak("Captain, AI Brain download karna padega, 1.5 GB. Karun?");
-      } else {
-        await speak("AI Brain ready hai, Captain. Main full power pe hoon.");
+        log("boot: start");
+        await ensurePermissions(async () => {
+          await speak("NOVA needs storage access to create folders and manage files for you, Captain.");
+        });
+        log("boot: permissions done");
+        await requestMicPermission();
+        log("boot: mic done");
+        await useSettingsStore.getState().load();
+        log("boot: settings done");
+        refreshStorage();
+        if (cancelled) return;
+        await speak("NOVA online, Captain. Searching for the backend.");
+        log("boot: online spoken");
+        if (cancelled) return;
+        const saved = useSettingsStore.getState().backendIp;
+        const found = await discoverBackend(saved ? [saved] : []);
+        log("boot: discovery done found=" + found);
+        if (cancelled) return;
+        if (found) {
+          useSettingsStore.getState().setBackendIp(found);
+          retryConnect();
+          log("boot: connected ws");
+        } else {
+          await speak(
+            "Captain, I can't find the backend. Please ask Suhail or Qureshi to type the IP on my behalf."
+          );
+        }
+        if (cancelled) return;
+
+        let brainReady = false;
+        try {
+          brainReady = await allModulesInstalled();
+        } catch (error) {}
+        brainDoneRef.current = brainReady;
+        log("boot: brain check done=" + brainReady);
+        if (cancelled) return;
+        if (!brainReady) {
+          awaitingBrainRef.current = true;
+          await speak("Captain, AI Brain download karna padega, 1.5 GB. Karun?");
+        } else {
+          await speak("AI Brain ready hai, Captain. Main full power pe hoon.");
+        }
+        goIdle();
+        log("boot: goIdle");
+      } catch (error) {
+        log("boot: EXCEPTION " + (error && error.message) + " | " + (error && error.stack));
       }
-      goIdle();
     })();
     return () => {
       cancelled = true;

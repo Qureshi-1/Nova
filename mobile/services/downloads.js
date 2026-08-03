@@ -1,5 +1,8 @@
 import * as Crypto from "expo-crypto";
 import * as FileSystem from "expo-file-system";
+import { log } from "./bootlog";
+
+log("downloads.js loaded");
 
 export const BRAIN_DIR = FileSystem.documentDirectory + "brain/";
 export const MODULES_DIR = BRAIN_DIR + "modules/";

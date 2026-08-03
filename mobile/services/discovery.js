@@ -1,5 +1,8 @@
 import axios from "axios";
 import * as Network from "expo-network";
+import { log } from "./bootlog";
+
+log("discovery.js loaded");
 
 const PORT = 8000;
 const SCAN_TIMEOUT_MS = 700;

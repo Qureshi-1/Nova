@@ -1,3 +1,7 @@
+import { log } from "./bootlog";
+
+log("websocket.js loaded");
+
 const RECONNECT_BASE_DELAY_MS = 1000;
 
 export function connectNovaSocket(ip, handlers = {}) {

@@ -1,5 +1,8 @@
 import * as SecureStore from "expo-secure-store";
 import { create } from "zustand";
+import { log } from "./bootlog";
+
+log("settings.js pre-create");
 
 const STORAGE_KEY = "nova_settings";
 

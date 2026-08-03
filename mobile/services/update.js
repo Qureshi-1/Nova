@@ -3,6 +3,10 @@ import * as IntentLauncher from "expo-intent-launcher";
 
 import Constants from "expo-constants";
 
+import { log } from "./bootlog";
+
+log("update.js loaded");
+
 const GITHUB_REPO = "Qureshi-1/Nova";
 const GITHUB_API = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`;
 

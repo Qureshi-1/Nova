@@ -1,6 +1,9 @@
 import { PermissionsAndroid, Platform, Linking } from "react-native";
 import * as IntentLauncher from "expo-intent-launcher";
 import Constants from "expo-constants";
+import { log } from "./bootlog";
+
+log("permissions.js loaded");
 
 const checkManageStorage = async () => {
   if (Platform.OS === "android" && Platform.Version >= 30) {
