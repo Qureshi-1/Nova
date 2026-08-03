@@ -2,6 +2,7 @@
   "expo": {
     "name": "NOVA",
     "slug": "nova",
+    "owner": "qureshi-1s-team",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
