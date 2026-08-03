@@ -1,6 +1,26 @@
-import { PermissionsAndroid, Platform } from "react-native";
+import { PermissionsAndroid, Platform, Linking } from "react-native";
 import * as IntentLauncher from "expo-intent-launcher";
 import Constants from "expo-constants";
+
+const checkManageStorage = async () => {
+  if (Platform.OS === "android" && Platform.Version >= 30) {
+    try {
+      const hasPermission = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.MANAGE_EXTERNAL_STORAGE
+      );
+      if (!hasPermission) {
+        // Redirect user to Settings → Apps → NOVA → Permissions → All files access
+        await Linking.openSettings();
+        return false; // User must grant manually
+      }
+      return true;
+    } catch (error) {
+      console.warn("Manage storage check failed:", error);
+      return false;
+    }
+  }
+  return true;
+};
 
 export async function ensurePermissions(onGuideStorage) {
   const granted = [];
@@ -17,10 +37,10 @@ export async function ensurePermissions(onGuideStorage) {
       if (notif === PermissionsAndroid.RESULTS.GRANTED) granted.push("POST_NOTIFICATIONS");
     }
     if (Platform.Version >= 30) {
-      const storage = await PermissionsAndroid.request(
+      const storage = await PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.MANAGE_EXTERNAL_STORAGE
       );
-      if (storage === PermissionsAndroid.RESULTS.GRANTED) {
+      if (storage) {
         granted.push("MANAGE_EXTERNAL_STORAGE");
       } else {
         onGuideStorage && onGuideStorage();
@@ -41,6 +61,8 @@ export async function ensurePermissions(onGuideStorage) {
   } catch (error) {}
   return granted;
 }
+
+export { checkManageStorage };
 
 export async function hasStoragePermission() {
   if (Platform.OS !== "android" || Platform.Version < 30) return true;
