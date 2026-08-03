@@ -3,7 +3,7 @@
     "name": "NOVA",
     "slug": "nova",
     "owner": "qureshi-1s-team",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#000000",
@@ -15,8 +15,7 @@
     },
     "android": {
       "package": "com.nova.companion",
-      "versionCode": 6,
-      "useLegacyPackaging": true,
+      "versionCode": 7,
       "permissions": [
         "RECORD_AUDIO",
         "POST_NOTIFICATIONS",
@@ -36,6 +35,14 @@
         {
           "microphonePermission": "NOVA needs the microphone to hear you, Captain.",
           "speechRecognitionPermission": "NOVA uses speech recognition to take your voice commands, Captain."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "useLegacyPackaging": true
+          }
         }
       ]
     ],
