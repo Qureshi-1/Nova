@@ -40,9 +40,7 @@ jobs:
 
       - name: Download built APK
         working-directory: mobile
-        run: |
-          mkdir -p build
-          eas build:download --latest --platform android --non-interactive --output build/nova.apk
+        run: node scripts/fetch-apk.js
 
       - name: Create GitHub Release with APK
         uses: softprops/action-gh-release@v2
