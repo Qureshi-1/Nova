@@ -30,6 +30,10 @@ jobs:
         working-directory: mobile
         run: node -p "'app_version=v' + require('./app.json').expo.version" >> "$GITHUB_OUTPUT"
 
+      - name: Init EAS project
+        working-directory: mobile
+        run: eas init --account qureshi-1s-team --non-interactive
+
       - name: Build APK with EAS
         working-directory: mobile
         run: eas build --platform android --profile preview --non-interactive
