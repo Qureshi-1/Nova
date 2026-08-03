@@ -20,7 +20,6 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
           expo-version: latest
           eas-version: latest
-          node-version: 20
 
       - name: Install mobile dependencies
         working-directory: mobile
@@ -29,7 +28,7 @@ jobs:
       - name: Read app version
         id: version
         working-directory: mobile
-        run: echo "app_version=v$(node -p \"require('./app.json').expo.version\")" >> "$GITHUB_OUTPUT"
+        run: node -p "console.log('app_version=v' + require('./app.json').expo.version)" >> "$GITHUB_OUTPUT"
 
       - name: Build APK with EAS
         working-directory: mobile
