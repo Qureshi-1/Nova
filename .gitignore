@@ -1,0 +1,11 @@
+node_modules/
+__pycache__/
+*.pyc
+.expo/
+dist/
+build/
+*.apk
+.env
+.venv/
+venv/
+*.log

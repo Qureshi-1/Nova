@@ -1,0 +1,55 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-android-apk:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Expo and Node
+        uses: expo/expo-github-action@v8
+        with:
+          token: ${{ secrets.EXPO_TOKEN }}
+          expo-version: latest
+          eas-version: latest
+          node-version: 20
+
+      - name: Install mobile dependencies
+        working-directory: mobile
+        run: npm install
+
+      - name: Read app version
+        id: version
+        working-directory: mobile
+        run: echo "app_version=v$(node -p \"require('./app.json').expo.version\")" >> "$GITHUB_OUTPUT"
+
+      - name: Build APK with EAS
+        working-directory: mobile
+        run: eas build --platform android --profile preview --non-interactive
+
+      - name: Download built APK
+        working-directory: mobile
+        run: |
+          BUILD_ID=$(eas build:list --platform android --limit 1 --non-interactive --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const j=JSON.parse(s);process.stdout.write(j[0].id)})")
+          mkdir -p build
+          eas build:download --id "$BUILD_ID" --platform android --non-interactive --output build/nova.apk
+
+      - name: Create GitHub Release with APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.app_version }}
+          name: NOVA ${{ steps.version.outputs.app_version }}
+          body: |
+            NOVA ${{ steps.version.outputs.app_version }} — hands-free cognitive companion.
+
+            Install: download nova.apk, enable "Install unknown apps" for your file manager, then open the APK.
+          files: mobile/build/nova.apk
+          generate_release_notes: false

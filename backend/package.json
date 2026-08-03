@@ -1,0 +1,13 @@
+{
+  "name": "nova-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NOVA offline brain entry point. Runs the Python FastAPI backend (uvicorn) or, as a fallback when the Python runtime is unavailable, the minimal Node.js WebSocket brain in node-fallback/.",
+  "scripts": {
+    "start": "node node-fallback/server.js",
+    "python": "python -m uvicorn app.main:app --host 127.0.0.1 --port 8000"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

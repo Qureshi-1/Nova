@@ -1,0 +1,13 @@
+{
+  "name": "nova-node-fallback",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server.js",
+  "description": "Minimal Node.js fallback brain for NOVA. Speaks the same WebSocket protocol as the Python backend so the mobile app stays functional even if the Python runtime/AI Brain module is not yet installed.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
