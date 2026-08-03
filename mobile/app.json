@@ -25,7 +25,8 @@
         "INTERNET",
         "MANAGE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
+        "WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "plugins": [
@@ -36,6 +37,11 @@
           "speechRecognitionPermission": "NOVA uses speech recognition to take your voice commands, Captain."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9821781a-03cd-4f26-981a-7255a443b2a2"
+      }
+    }
   }
 }
